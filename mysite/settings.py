@@ -30,7 +30,7 @@ DEBUG = True
 # have ALLOWED_HOSTS = ['*'] when the app is deployed. If you deploy a Django
 # app not on App Engine, make sure to set an appropriate host here.
 # See https://docs.djangoproject.com/en/1.10/ref/settings/
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'http://localhost:5885']
 
 # Application definition
 
@@ -41,12 +41,15 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'artist_match',
-    'user_mgmt'
+    'users',
+    'lists',
+    'cities',
+    'corsheaders',
+    'rest_framework'
 )
 
 MIDDLEWARE = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -76,6 +79,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
@@ -85,7 +90,7 @@ DATABASES = {
         # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
         # 'ENGINE': 'django.db.backends.mysql' instead of the following.
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vybe',
+        'NAME': 'placelist',
         'USER': 'kdenny',
         'PASSWORD': 'password',
         # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
@@ -96,7 +101,7 @@ DATABASES = {
 # In the flexible environment, you connect to CloudSQL using a unix socket.
 # Locally, you can use the CloudSQL proxy to proxy a localhost connection
 # to the instance
-DATABASES['default']['HOST'] = '/cloudsql/vybe-198723:us-east1:vybe-instance'
+DATABASES['default']['HOST'] = '/cloudsql/marcopolo-1278:us-east1:placelist'
 if os.getenv('GAE_INSTANCE'):
     pass
 else:
@@ -133,7 +138,7 @@ USE_TZ = True
 # [START staticurl]
 # Fill in your cloud bucket and switch which one of the following 2 lines
 # is commented to serve static content from GCS
-STATIC_URL = 'https://storage.googleapis.com/vybe-app/static/'
+STATIC_URL = 'https://storage.googleapis.com/placelist/static/'
 # STATIC_URL = '/static/'
 # [END staticurl]
 

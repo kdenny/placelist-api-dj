@@ -18,8 +18,9 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
-    url(r'^', include('artist_match.urls')),
-    url(r'^', include('user_mgmt.urls')),
+    url(r'^cities/', include('cities.urls')),
+    url(r'^lists/', include('lists.urls')),
+    url(r'^api-auth/', include('rest_framework.urls')),
     url(r'^admin/', admin.site.urls)
 ]
 

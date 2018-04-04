@@ -6,3 +6,6 @@ mysqlclient==1.3.12
 psycopg2==2.7.4
 PyJWT==1.6.1
 pytz==2018.3
+django-autoslug-iplweb
+django-cors-headers==2.2.0
+djangorestframework==3.7.7
