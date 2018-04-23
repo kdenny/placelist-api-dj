@@ -7,20 +7,42 @@ from cities.models import City, Neighborhood
 
 # Create your models here.
 
+class GoogleAccount(models.Model):
+    google_id = models.CharField(max_length=200)
+    display_name = models.CharField(max_length=200)
+
+class FacebookAccount(models.Model):
+    facebook_id = models.CharField(max_length=200)
+    display_name = models.CharField(max_length=200)
+
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    login_name = models.CharField(max_length=25)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    name = models.CharField(max_length=50)
     registered_on = models.DateTimeField(auto_now_add=True)
     last_active = models.DateTimeField(auto_now_add=True)
-
+    REGISTRATION_CHOICES = (
+        ('Google', 'google'),
+        ('Facebook', 'facebook'),
+        ('Other', 'other'),
+    )
+    registered_with = models.CharField(
+        max_length=10,
+        choices=REGISTRATION_CHOICES,
+        default='other',
+    )
+    google_account = models.ForeignKey(GoogleAccount, blank=True, null=True, on_delete=models.CASCADE, related_name='profile')
+    facebook_account = models.ForeignKey(FacebookAccount, blank=True, null=True, on_delete=models.CASCADE, related_name='profile')
     city = models.ForeignKey(City, blank=True, null=True, related_name='users', on_delete=models.SET_NULL)
     neighborhood = models.ForeignKey(Neighborhood, blank=True, null=True, related_name='users', on_delete=models.SET_NULL)
+    age = models.IntegerField(blank=True, null=True)
 
     def __unicode__(self):
-        return self.login_name
+        return self.name
 
     def __str__(self):
-        return self.login_name
+        return self.name
+
+
 
 class Friendship(models.Model):
     user1 = models.OneToOneField(User, related_name='following', on_delete=models.CASCADE)

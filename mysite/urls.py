@@ -16,11 +16,13 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
 urlpatterns = [
     url(r'^cities/', include('cities.urls')),
     url(r'^lists/', include('lists.urls')),
-    url(r'^api-auth/', include('rest_framework.urls')),
+    # url(r'^api-auth/', include('rest_framework.urls')),
+    url(r'^users/', include('users.urls')),
     url(r'^admin/', admin.site.urls)
 ]
 

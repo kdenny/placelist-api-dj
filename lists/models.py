@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from cities.models import City, Neighborhood
-from users.models import User
+from django.contrib.auth.models import User
 from autoslug import AutoSlugField
 
 

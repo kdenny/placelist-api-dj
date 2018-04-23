@@ -12,7 +12,7 @@ import json
 from .models import Placelist, Place, PlaceType, ListType
 from .serializers import PlacelistSerializer, PlacelistReadSerializer
 from cities.models import City, Neighborhood
-from users.models import User
+from django.contrib.auth.models import User
 from pprint import pprint
 from datetime import datetime
 
@@ -37,7 +37,7 @@ class ListOfLists(APIView):
         else:
             tobj = ListType.objects.create(name=plob['type'])
             tobj.save()
-
+        print(plob['author'])
         pl = Placelist.objects.create(
             title = plob['title'],
             type = tobj,

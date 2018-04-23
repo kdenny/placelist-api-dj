@@ -30,7 +30,7 @@ DEBUG = True
 # have ALLOWED_HOSTS = ['*'] when the app is deployed. If you deploy a Django
 # app not on App Engine, make sure to set an appropriate host here.
 # See https://docs.djangoproject.com/en/1.10/ref/settings/
-ALLOWED_HOSTS = ['*', 'http://localhost:5885']
+ALLOWED_HOSTS = ['*', 'http://localhost:5885', '127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -40,12 +40,13 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'rest_framework',
     'users',
     'lists',
-    'cities',
-    'corsheaders',
-    'rest_framework'
+    'cities'
 )
 
 MIDDLEWARE = (
@@ -85,35 +86,53 @@ CORS_ORIGIN_ALLOW_ALL = True
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 # [START dbconfig]
+# DATABASES = {
+#     'default': {
+#         # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
+#         # 'ENGINE': 'django.db.backends.mysql' instead of the following.
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'placelist',
+#         'USER': 'kdenny',
+#         'PASSWORD': 'password',
+#         # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
+#         # SQL Proxy instances running locally must also be set to tcp:3306.
+#         'PORT': '5432',
+#     }
+# }
+# # In the flexible environment, you connect to CloudSQL using a unix socket.
+# # Locally, you can use the CloudSQL proxy to proxy a localhost connection
+# # to the instance
+# DATABASES['default']['HOST'] = '/cloudsql/marcopolo-1278:us-east1:placelist'
+# if os.getenv('GAE_INSTANCE'):
+#     pass
+# else:
+#     DATABASES['default']['HOST'] = '127.0.0.1'
+# [END dbconfig]
+#
+# REST_SESSION_LOGIN = True
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SITE_ID = 1
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_EMAIL_VERIFICATION = 'optional'
+
 DATABASES = {
     'default': {
-        # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
-        # 'ENGINE': 'django.db.backends.mysql' instead of the following.
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'placelist',
-        'USER': 'kdenny',
+        'USER': 'kevindenny',
         'PASSWORD': 'password',
-        # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
-        # SQL Proxy instances running locally must also be set to tcp:3306.
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
-# In the flexible environment, you connect to CloudSQL using a unix socket.
-# Locally, you can use the CloudSQL proxy to proxy a localhost connection
-# to the instance
-DATABASES['default']['HOST'] = '/cloudsql/marcopolo-1278:us-east1:placelist'
-if os.getenv('GAE_INSTANCE'):
-    pass
-else:
-    DATABASES['default']['HOST'] = '127.0.0.1'
-# [END dbconfig]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
