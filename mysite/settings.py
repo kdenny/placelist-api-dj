@@ -161,4 +161,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # [END staticurl]
 
-# STATIC_ROOT = 'static/'
+STATIC_ROOT = 'static/'
